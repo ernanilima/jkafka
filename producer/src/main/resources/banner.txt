@@ -1,0 +1,9 @@
+${AnsiColor.BLUE}.-------------------------------------------------------------------------------------------------.
+|${AnsiColor.CYAN}                            ____                _                                                ${AnsiColor.BLUE}|
+|${AnsiColor.CYAN}                           |  _ \ _ __ ___   __| |_   _  ___ ___ _ __                            ${AnsiColor.BLUE}|
+|${AnsiColor.CYAN}                           | |_) | '__/ _ \ / _` | | | |/ __/ _ \ '__|                           ${AnsiColor.BLUE}|
+|${AnsiColor.CYAN}                           |  __/| | | (_) | (_| | |_| | (_|  __/ |                              ${AnsiColor.BLUE}|
+|${AnsiColor.CYAN}                           |_|   |_|  \___/ \__,_|\__,_|\___\___|_|                              ${AnsiColor.BLUE}|
+|${AnsiColor.CYAN}                                                                                                 ${AnsiColor.BLUE}|
+'-------------------------------------------------------------------------------------------------'
+${AnsiColor.BRIGHT_BLUE}:: Ernani Lima :: Running Spring Boot ${spring-boot.version} :: \ö/${AnsiColor.GREEN}

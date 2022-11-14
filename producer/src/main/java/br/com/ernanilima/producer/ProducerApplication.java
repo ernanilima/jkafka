@@ -8,7 +8,6 @@ public class ProducerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
-		System.out.println("Aplicacao de pe");
 	}
 
 }
