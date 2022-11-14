@@ -13,13 +13,14 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class ProducerConfig {
+public class ProducerConfig implements WebMvcConfigurer {
 
     @Value("${kafka.topic.email.to.support}")
     private String topicEmailToSupport;
