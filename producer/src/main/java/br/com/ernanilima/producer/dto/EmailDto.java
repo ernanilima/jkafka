@@ -1,5 +1,6 @@
 package br.com.ernanilima.producer.dto;
 
+import br.com.ernanilima.producer.utils.Validation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,11 @@ import java.io.Serializable;
 @Setter
 public class EmailDto implements Serializable {
 
-    @NotEmpty
-    @Email(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
-    private String emailFrom;
+    @NotEmpty(message = "{empty.field}")
+    @Email(regexp = Validation.EMAIL_REGEX, message = "{invalid.email}")
+    private String sender;
 
-    @NotEmpty
+    @NotEmpty(message = "{empty.field}")
     private String message;
 
 }

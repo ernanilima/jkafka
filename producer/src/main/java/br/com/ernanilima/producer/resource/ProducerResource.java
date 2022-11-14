@@ -21,9 +21,9 @@ public class ProducerResource {
     private final EmailService emailService;
 
     @PostMapping(value = "/email-to-support")
-    public ResponseEntity<?> sendEmailToSupport(@Valid @RequestBody EmailDto emailDto) {
+    public ResponseEntity<Void> sendEmailToSupport(@Valid @RequestBody EmailDto emailDto) {
         log.info("{} '/send/email-to-support', enviar e-mail de '{}'",
-                this.getClass().getSimpleName(), emailDto.getEmailFrom());
+                this.getClass().getSimpleName(), emailDto.getSender());
 
         emailService.send(emailDto);
 

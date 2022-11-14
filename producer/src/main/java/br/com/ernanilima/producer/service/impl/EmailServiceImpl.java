@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void send(EmailDto emailDto) {
         log.info("{}, e-mail de '{}' com a mensagem '{}'",
-                this.getClass().getSimpleName(), emailDto.getEmailFrom(), emailDto.getMessage());
+                this.getClass().getSimpleName(), emailDto.getSender(), emailDto.getMessage());
 
         kafkaTemplate.send(topicEmailToSupport, emailDto);
     }
