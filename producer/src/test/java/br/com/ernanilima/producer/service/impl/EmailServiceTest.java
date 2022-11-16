@@ -1,7 +1,7 @@
 package br.com.ernanilima.producer.service.impl;
 
 import br.com.ernanilima.producer.builder.EmailDTOBuilder;
-import br.com.ernanilima.producer.dto.EmailDto;
+import br.com.ernanilima.producer.dto.EmailDTO;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -17,8 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SettableListenableFuture;
 
 import java.io.Serializable;
@@ -54,11 +52,9 @@ class EmailServiceTest {
     @Test
     @DisplayName("Deve enviar um e-mail")
     void send_Must_Send_An_Email() {
-        EmailDto dto = EmailDTOBuilder.create();
+        EmailDTO dto = EmailDTOBuilder.create();
 
-        ListenableFuture<SendResult<String, Serializable>> future = new SettableListenableFuture<>();
-
-        when(kafkaTemplateMock.send(anyString(), any(EmailDto.class))).thenReturn(future);
+        when(kafkaTemplateMock.send(anyString(), any(EmailDTO.class))).thenReturn(new SettableListenableFuture<>());
 
         emailServiceMock.send(dto);
 
@@ -69,5 +65,7 @@ class EmailServiceTest {
         ILoggingEvent loggingEvent = argumentCaptor.getAllValues().get(0);
         assertThat(loggingEvent.getMessage(), is("{}, e-mail de '{}' com a mensagem '{}'"));
         assertThat(loggingEvent.getLevel(), is(Level.INFO));
+        assertThat(loggingEvent.getFormattedMessage(),
+                is("EmailServiceImpl, e-mail de 'email1@email.com.br' com a mensagem 'Mensagem para enviar'"));
     }
 }

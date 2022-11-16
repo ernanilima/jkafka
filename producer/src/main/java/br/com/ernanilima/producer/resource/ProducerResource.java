@@ -1,6 +1,6 @@
 package br.com.ernanilima.producer.resource;
 
-import br.com.ernanilima.producer.dto.EmailDto;
+import br.com.ernanilima.producer.dto.EmailDTO;
 import br.com.ernanilima.producer.service.EmailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +21,11 @@ public class ProducerResource {
     private final EmailService emailService;
 
     @PostMapping(value = "/email-to-support")
-    public ResponseEntity<Void> sendEmailToSupport(@Valid @RequestBody EmailDto emailDto) {
+    public ResponseEntity<Void> sendEmailToSupport(@Valid @RequestBody EmailDTO dto) {
         log.info("{} '/send/email-to-support', enviar e-mail de '{}'",
-                this.getClass().getSimpleName(), emailDto.getSender());
+                this.getClass().getSimpleName(), dto.getSender());
 
-        emailService.send(emailDto);
+        emailService.send(dto);
 
         return ResponseEntity.ok().build();
     }

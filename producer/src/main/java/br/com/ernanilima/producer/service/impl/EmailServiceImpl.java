@@ -1,6 +1,6 @@
 package br.com.ernanilima.producer.service.impl;
 
-import br.com.ernanilima.producer.dto.EmailDto;
+import br.com.ernanilima.producer.dto.EmailDTO;
 import br.com.ernanilima.producer.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void send(EmailDto emailDto) {
+    public void send(EmailDTO dto) {
         log.info("{}, e-mail de '{}' com a mensagem '{}'",
-                this.getClass().getSimpleName(), emailDto.getSender(), emailDto.getMessage());
+                this.getClass().getSimpleName(), dto.getSender(), dto.getMessage());
 
-        kafkaTemplate.send(topicEmailToSupport, emailDto);
+        kafkaTemplate.send(topicEmailToSupport, dto);
     }
 }

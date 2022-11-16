@@ -1,7 +1,7 @@
 package br.com.ernanilima.producer.service;
 
-import br.com.ernanilima.producer.dto.EmailDto;
+import br.com.ernanilima.producer.dto.EmailDTO;
 
 public interface EmailService {
-    void send(EmailDto emailDto);
+    void send(EmailDTO dto);
 }

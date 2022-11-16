@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @Getter
 @Setter
-public class EmailDto implements Serializable {
+public class EmailDTO implements Serializable {
 
     @NotEmpty(message = "{empty.field}")
     @Email(regexp = Validation.EMAIL_REGEX, message = "{invalid.email}")
