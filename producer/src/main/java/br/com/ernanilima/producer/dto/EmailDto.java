@@ -1,6 +1,7 @@
 package br.com.ernanilima.producer.dto;
 
 import br.com.ernanilima.producer.utils.Validation;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@Builder
 @Getter
 @Setter
 public class EmailDto implements Serializable {
