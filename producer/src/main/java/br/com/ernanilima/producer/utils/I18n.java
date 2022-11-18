@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 public final class I18n {
 
     // TITLE FOR ERROR
-    public static final String TTL_VALIDATION_ERROR = "title.validation.error";
+    public static final String TTL_VALIDATION = "title.validation";
     public static final String TTL_INVALID_DATA = "title.invalid.data";
 
     // EXCEPTIONS

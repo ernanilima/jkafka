@@ -33,9 +33,9 @@ class I18nTest {
     }
 
     @Test
-    @DisplayName("Deve retornar a mensagem em pt_BR para TTL_VALIDATION_ERROR")
-    void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_VALIDATION_ERROR() {
-        assertEquals("Erro de validação", getMessage(TTL_VALIDATION_ERROR));
+    @DisplayName("Deve retornar a mensagem em pt_BR para TTL_VALIDATION")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_VALIDATION() {
+        assertEquals("Validação", getMessage(TTL_VALIDATION));
     }
 
     @Test
@@ -47,7 +47,7 @@ class I18nTest {
     @Test
     @DisplayName("Deve retornar a mensagem em pt_BR para TTL_INVALID_DATA")
     void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_INVALID_DATA() {
-        assertEquals("Erro de valor inválido", getMessage(TTL_INVALID_DATA));
+        assertEquals("Valor inválido", getMessage(TTL_INVALID_DATA));
     }
 
     @Test
