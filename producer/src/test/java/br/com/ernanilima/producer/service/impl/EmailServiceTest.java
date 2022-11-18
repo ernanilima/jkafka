@@ -1,6 +1,5 @@
 package br.com.ernanilima.producer.service.impl;
 
-import br.com.ernanilima.producer.builder.EmailDTOBuilder;
 import br.com.ernanilima.producer.dto.EmailDTO;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -52,7 +51,7 @@ class EmailServiceTest {
     @Test
     @DisplayName("Deve enviar um e-mail")
     void send_Must_Send_An_Email() {
-        EmailDTO dto = EmailDTOBuilder.create();
+        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
         when(kafkaTemplateMock.send(anyString(), any(EmailDTO.class))).thenReturn(new SettableListenableFuture<>());
 
@@ -66,6 +65,6 @@ class EmailServiceTest {
         assertThat(loggingEvent.getMessage(), is("{}, e-mail de '{}' com a mensagem '{}'"));
         assertThat(loggingEvent.getLevel(), is(Level.INFO));
         assertThat(loggingEvent.getFormattedMessage(),
-                is("EmailServiceImpl, e-mail de 'email1@email.com.br' com a mensagem 'Mensagem para enviar'"));
+                is("EmailServiceImpl, e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
     }
 }
