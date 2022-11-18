@@ -53,6 +53,12 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.3</version>
         </dependency>
+        <!-- Usar JSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10</version>
+        </dependency>
         <!-- Validacoes para inserir (entrada de dados) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -70,6 +76,12 @@
                     <artifactId>junit</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>1.17.6</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
