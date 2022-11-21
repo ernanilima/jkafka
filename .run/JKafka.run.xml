@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JKafka" type="CompoundRunConfigurationType">
+    <toRun name="ConsumerEmail" type="SpringBootApplicationConfigurationType" />
+    <toRun name="Producer" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
