@@ -7,15 +7,23 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.annotation.PostConstruct;
 import java.util.Locale;
 
 @Configuration
 public class I18nConfig {
 
+    private final Locale defaultLocale = new Locale("pt", "BR");
+
+    @PostConstruct
+    void localeJVM() {
+        Locale.setDefault(defaultLocale);
+    }
+
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("pt", "BR"));
+        slr.setDefaultLocale(defaultLocale);
         return slr;
     }
 
