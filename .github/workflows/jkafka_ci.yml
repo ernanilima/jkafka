@@ -15,5 +15,5 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Executar os testes
-      run: mvn -B package --file pom.xml
+    - name: Testes para Producer-Kafka
+      run: mvn package -f ./producer/pom.xml
