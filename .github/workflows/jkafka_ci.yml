@@ -18,4 +18,4 @@ jobs:
     - name: Testes para Producer
       run: mvn package -f ./producer/pom.xml
     - name: Testes para Consumer-Email
-      run: mvn package -f ./consumer-email/pom.xml
+      run: mvn install -Dmaven.test.skip -f ./producer/pom.xml && mvn package -f ./consumer-email/pom.xml
