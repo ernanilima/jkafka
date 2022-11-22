@@ -26,7 +26,7 @@
             <groupId>br.com.ernanilima</groupId>
             <artifactId>producer-kafka</artifactId>
             <version>0.1</version>
-			<type>war</type>
+			<type>pom</type>
         </dependency>
 	</dependencies>
 </project>
