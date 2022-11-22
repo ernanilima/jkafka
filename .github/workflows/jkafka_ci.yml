@@ -15,5 +15,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Testes para Producer-Kafka
+    - name: Testes para Producer
       run: mvn package -f ./producer/pom.xml
+    - name: Testes para Consumer-Email
+      run: mvn package -f ./consumer-email/pom.xml
