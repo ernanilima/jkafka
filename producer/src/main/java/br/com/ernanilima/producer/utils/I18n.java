@@ -2,13 +2,15 @@ package br.com.ernanilima.producer.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.context.i18n.LocaleContextHolder;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class I18n {
+
+    public static final Locale DEFAULT_LOCALE = new Locale("pt", "BR");
 
     // TITLE FOR ERROR
     public static final String TTL_VALIDATION = "title.validation";
@@ -24,7 +26,7 @@ public final class I18n {
 
     public static String getMessage(String s) {
         Objects.requireNonNull(s);
-        return ResourceBundle.getBundle("messages", LocaleContextHolder.getLocale())
+        return ResourceBundle.getBundle("messages", I18n.DEFAULT_LOCALE)
                 .getString(s.toLowerCase());
     }
 }
