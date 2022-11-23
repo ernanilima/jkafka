@@ -15,9 +15,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Montar projeto
-      run: mvn clean install
+    - name: Limpar e montar o projeto
+      run: mvn clean install -Dmaven.test.skip
     - name: Testes para Producer
       run: mvn test -f ./producer/pom.xml
-#     - name: Testes para Consumer-Email
-#       run: mvn test -f ./consumer-email/pom.xml
+    - name: Testes para Consumer-Email
+      run: mvn test -f ./consumer-email/pom.xml
