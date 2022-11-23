@@ -1,6 +1,6 @@
-package br.com.ernanilima.sharedlibrary.dto;
+package br.com.ernanilima.shared.dto;
 
-import br.com.ernanilima.sharedlibrary.utils.Validation;
+import br.com.ernanilima.shared.utils.Validation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

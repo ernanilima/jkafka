@@ -1,4 +1,4 @@
-package br.com.ernanilima.producer.utils;
+package br.com.ernanilima.shared.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

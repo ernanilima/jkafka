@@ -1,8 +1,7 @@
 package br.com.ernanilima.producer.service.impl;
 
-//import br.com.ernanilima.producer.dto.EmailDTO;
 import br.com.ernanilima.producer.service.EmailService;
-import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

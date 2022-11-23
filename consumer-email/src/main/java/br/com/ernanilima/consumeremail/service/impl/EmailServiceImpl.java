@@ -1,8 +1,7 @@
 package br.com.ernanilima.consumeremail.service.impl;
 
 import br.com.ernanilima.consumeremail.service.EmailService;
-//import br.com.ernanilima.producer.dto.EmailDTO;
-import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
