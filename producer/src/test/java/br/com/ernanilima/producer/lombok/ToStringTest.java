@@ -2,7 +2,6 @@ package br.com.ernanilima.producer.lombok;
 
 import br.com.ernanilima.producer.resource.exception.ErrorMultipleFields;
 import br.com.ernanilima.producer.resource.exception.StandardError;
-import br.com.ernanilima.shared.dto.EmailDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.shaded.org.apache.commons.lang3.RandomStringUtils;
@@ -16,12 +15,6 @@ public class ToStringTest {
     @BeforeEach
     void setup() {
         randomString = RandomStringUtils.randomAlphabetic(10);
-    }
-
-    @Test
-    void emailDTO_Builder_toString() {
-        String emailDTO = EmailDTO.builder().message(this.randomString).toString();
-        assertTrue(emailDTO.contains(this.randomString));
     }
 
     @Test

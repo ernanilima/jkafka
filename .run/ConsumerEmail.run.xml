@@ -1,5 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ConsumerEmail" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="SMTP_NOREPLY_EMAIL_PASSWORD" value="senha_do_email" />
+      <env name="SMTP_NOREPLY_EMAIL_USER" value="noreply@email.com" />
+      <env name="SUPPORT_EMAIL_USER" value="support@email.com" />
+    </envs>
     <module name="consumer-email" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.ernanilima.consumeremail.ConsumerEmailApplication" />
     <method v="2">
