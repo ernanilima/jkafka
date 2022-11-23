@@ -1,6 +1,7 @@
 package br.com.ernanilima.producer.service.impl;
 
-import br.com.ernanilima.producer.dto.EmailDTO;
+//import br.com.ernanilima.producer.dto.EmailDTO;
+import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;

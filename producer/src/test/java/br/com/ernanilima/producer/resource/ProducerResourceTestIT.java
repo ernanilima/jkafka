@@ -1,7 +1,8 @@
 package br.com.ernanilima.producer.resource;
 
 import br.com.ernanilima.producer.ProducerTestIT;
-import br.com.ernanilima.producer.dto.EmailDTO;
+//import br.com.ernanilima.producer.dto.EmailDTO;
+import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

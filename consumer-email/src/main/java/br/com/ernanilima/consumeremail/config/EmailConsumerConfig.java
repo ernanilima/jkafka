@@ -1,6 +1,7 @@
 package br.com.ernanilima.consumeremail.config;
 
-import br.com.ernanilima.producer.dto.EmailDTO;
+//import br.com.ernanilima.producer.dto.EmailDTO;
+import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;

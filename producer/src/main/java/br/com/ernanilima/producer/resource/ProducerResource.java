@@ -1,7 +1,8 @@
 package br.com.ernanilima.producer.resource;
 
-import br.com.ernanilima.producer.dto.EmailDTO;
+//import br.com.ernanilima.producer.dto.EmailDTO;
 import br.com.ernanilima.producer.service.EmailService;
+import br.com.ernanilima.sharedlibrary.dto.EmailDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
