@@ -15,7 +15,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Testes para Producer
-      run: mvn test -f ./producer/pom.xml
-    - name: Testes para Consumer-Email
-      run: mvn test -f ./consumer-email/pom.xml
+    - name: Montar projeto
+      run: mvn clean install
+#     - name: Testes para Producer
+#       run: mvn test -f ./producer/pom.xml
+#     - name: Testes para Consumer-Email
+#       run: mvn test -f ./consumer-email/pom.xml
