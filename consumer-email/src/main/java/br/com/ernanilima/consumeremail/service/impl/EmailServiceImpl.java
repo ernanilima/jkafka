@@ -5,6 +5,7 @@ import br.com.ernanilima.shared.dto.EmailDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Component
 public class EmailServiceImpl implements EmailService {
 
-    private final String CLASS_NAME = this.getClass().getPackageName() + "." + this.getClass().getSimpleName();
+    private final String CLASS_NAME = "consumeremail." + this.getClass().getSimpleName();
 
     private final JavaMailSender emailSender;
 
@@ -35,7 +36,16 @@ public class EmailServiceImpl implements EmailService {
                 CLASS_NAME, dto.getSender(), dto.getMessage());
 
         SimpleMailMessage mailMessage = prepareSimpleMailMessage(dto);
-        emailSender.send(mailMessage);
+
+        try {
+            emailSender.send(mailMessage);
+
+            log.info("{}, e-mail de '{}' foi enviado",
+                    CLASS_NAME, dto.getSender());
+        } catch (MailSendException e) {
+            log.error("{}, erro ao enviar o e-mail de '{}', MailException '{}'",
+                    CLASS_NAME, dto.getSender(), e.getMessage());
+        }
     }
 
     protected SimpleMailMessage prepareSimpleMailMessage(EmailDTO dto) {
