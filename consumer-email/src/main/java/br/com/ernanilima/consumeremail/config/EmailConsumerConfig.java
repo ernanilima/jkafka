@@ -1,7 +1,6 @@
 package br.com.ernanilima.consumeremail.config;
 
 import br.com.ernanilima.shared.dto.EmailDTO;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -15,6 +14,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
 
 @EnableKafka
 @Configuration
@@ -31,9 +32,10 @@ public class EmailConsumerConfig {
     public ConsumerFactory<String, EmailDTO> consumerFactory() {
         Map<String, Object> configs = new HashMap<>();
 
-        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-        configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        configs.put(BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        configs.put(AUTO_OFFSET_RESET_CONFIG, kafkaProperties.getConsumer().getAutoOffsetReset());
+        configs.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configs.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
         JsonDeserializer<EmailDTO> deserializer = new JsonDeserializer<>(EmailDTO.class)
                 .trustedPackages("br.com.ernanilima.*").forKeys();
