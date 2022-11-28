@@ -19,14 +19,10 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.util.Objects;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 @ExtendWith(MockitoExtension.class)
 class EmailServiceTest {
@@ -41,12 +37,9 @@ class EmailServiceTest {
     @Captor
     private ArgumentCaptor<ILoggingEvent> argumentCaptor;
 
-    private final String recipient = "support@email.com";
-
     @BeforeEach
     void setup() {
         emailServiceMock = new EmailServiceImpl(emailSenderMock);
-        setField(emailServiceMock, "recipient", recipient);
 
         Logger logger = (Logger) LoggerFactory.getLogger(EmailServiceImpl.class.getName());
         logger.addAppender(appenderMock);
@@ -103,20 +96,5 @@ class EmailServiceTest {
         assertThat(logger1.getLevel(), is(Level.ERROR));
         assertThat(logger1.getFormattedMessage(),
                 is("consumeremail.EmailServiceImpl, erro ao enviar o e-mail de 'email.ok@email.com', MailException 'Erro retornado'"));
-    }
-
-    @Test
-    @DisplayName("Deve retornar os dados do e-mail")
-    void prepareSimpleMailMessage_Must_Return_Email_Data() {
-        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
-
-        SimpleMailMessage result = emailServiceMock.prepareSimpleMailMessage(dto);
-
-        assertNotNull(result);
-
-        assertThat(result.getFrom(), is(dto.getSender()));
-        assertThat(Objects.requireNonNull(result.getTo())[0], is(recipient));
-        assertThat(result.getSubject(), is(dto.getSubject()));
-        assertThat(result.getText(), is(dto.getMessage()));
     }
 }
