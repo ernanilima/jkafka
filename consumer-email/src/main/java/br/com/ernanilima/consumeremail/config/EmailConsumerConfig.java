@@ -1,6 +1,6 @@
 package br.com.ernanilima.consumeremail.config;
 
-import br.com.ernanilima.shared.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -29,23 +29,23 @@ public class EmailConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, EmailDTO> consumerFactory() {
-        Map<String, Object> configs = new HashMap<>();
+    public ConsumerFactory<String, EmailToSupportDTO> consumerFactory() {
+        Map<String, Object> properties = new HashMap<>();
 
-        configs.put(BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-        configs.put(AUTO_OFFSET_RESET_CONFIG, kafkaProperties.getConsumer().getAutoOffsetReset());
-        configs.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configs.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(AUTO_OFFSET_RESET_CONFIG, kafkaProperties.getConsumer().getAutoOffsetReset());
+        properties.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        JsonDeserializer<EmailDTO> deserializer = new JsonDeserializer<>(EmailDTO.class)
+        JsonDeserializer<EmailToSupportDTO> deserializer = new JsonDeserializer<>(EmailToSupportDTO.class)
                 .trustedPackages("br.com.ernanilima.*").forKeys();
 
-        return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), deserializer);
+        return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), deserializer);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, EmailDTO> concurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, EmailDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, EmailToSupportDTO> concurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, EmailToSupportDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }

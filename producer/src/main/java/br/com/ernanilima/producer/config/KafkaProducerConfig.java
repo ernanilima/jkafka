@@ -29,13 +29,13 @@ public class KafkaProducerConfig implements WebMvcConfigurer {
 
     @Bean
     public ProducerFactory<String, Serializable> producerFactory() {
-        Map<String, Object> configs = new HashMap<>();
+        Map<String, Object> properties = new HashMap<>();
 
-        configs.put(BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-        configs.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configs.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        properties.put(BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        properties.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        return new DefaultKafkaProducerFactory<>(configs, new StringSerializer(), new JsonSerializer<>());
+        return new DefaultKafkaProducerFactory<>(properties, new StringSerializer(), new JsonSerializer<>());
     }
 
     @Bean

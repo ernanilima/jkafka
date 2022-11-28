@@ -26,6 +26,8 @@ class I18nTest {
     @Test
     @DisplayName("Deve retornar o nome do campo em pt_BR")
     void getFieldName_Must_Return_The_Field_Name_In_PTBR() {
+        String subject = "subject";
+        assertEquals("assunto", getFieldName(subject));
         String sender = "sender";
         assertEquals("remetente", getFieldName(sender));
         String message = "message";

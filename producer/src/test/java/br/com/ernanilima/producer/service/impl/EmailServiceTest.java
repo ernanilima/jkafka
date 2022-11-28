@@ -1,6 +1,6 @@
 package br.com.ernanilima.producer.service.impl;
 
-import br.com.ernanilima.shared.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -50,12 +50,12 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve enviar um e-mail")
-    void send_Must_Send_An_Email() {
-        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
+    void sendEmailToSupport_Must_Send_An_Email() {
+        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
-        when(kafkaTemplateMock.send(anyString(), any(EmailDTO.class))).thenReturn(new SettableListenableFuture<>());
+        when(kafkaTemplateMock.send(anyString(), any(EmailToSupportDTO.class))).thenReturn(new SettableListenableFuture<>());
 
-        emailServiceMock.send(dto);
+        emailServiceMock.sendEmailToSupport(dto);
 
         verify(kafkaTemplateMock, times(1)).send(any(), any());
         verifyNoMoreInteractions(kafkaTemplateMock);
@@ -65,6 +65,6 @@ class EmailServiceTest {
         assertThat(loggingEvent.getMessage(), is("{}, e-mail de '{}' com a mensagem '{}'"));
         assertThat(loggingEvent.getLevel(), is(Level.INFO));
         assertThat(loggingEvent.getFormattedMessage(),
-                is("EmailServiceImpl, e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
+                is("producer.EmailServiceImpl, e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
     }
 }

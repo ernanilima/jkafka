@@ -1,7 +1,7 @@
 package br.com.ernanilima.consumeremail.service.impl;
 
 import br.com.ernanilima.consumeremail.service.EmailService;
-import br.com.ernanilima.shared.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,13 +25,11 @@ public class EmailServiceImpl implements EmailService {
         this.emailSender = emailSender;
     }
 
-    @Value("${default.sender.smtp.noreply}")
-    private String senderSmtpNoReply;
     @Value("${default.recipient}")
     private String recipient;
 
     @Override
-    public void send(EmailDTO dto) {
+    public void sendEmailToSupport(EmailToSupportDTO dto) {
         log.info("{}, iniciando envio do e-mail de '{}' com a mensagem '{}'",
                 CLASS_NAME, dto.getSender(), dto.getMessage());
 
@@ -48,11 +46,11 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    protected SimpleMailMessage prepareSimpleMailMessage(EmailDTO dto) {
+    protected SimpleMailMessage prepareSimpleMailMessage(EmailToSupportDTO dto) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(senderSmtpNoReply); // de
+        message.setFrom(dto.getSender()); // de
         message.setTo(recipient); // para
-        message.setSubject(String.format("Sugestão de %s", dto.getSender()));
+        message.setSubject(dto.getSubject());
         message.setSentDate(new Date(System.currentTimeMillis()));
         message.setText(dto.getMessage());
 

@@ -1,6 +1,6 @@
 package br.com.ernanilima.consumeremail.service.impl;
 
-import br.com.ernanilima.shared.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -21,7 +21,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Objects;
 
-import static java.text.MessageFormat.format;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,13 +41,11 @@ class EmailServiceTest {
     @Captor
     private ArgumentCaptor<ILoggingEvent> argumentCaptor;
 
-    private final String senderSmtpNoReply = "noreply@email.com";
     private final String recipient = "support@email.com";
 
     @BeforeEach
     void setup() {
         emailServiceMock = new EmailServiceImpl(emailSenderMock);
-        setField(emailServiceMock, "senderSmtpNoReply", senderSmtpNoReply);
         setField(emailServiceMock, "recipient", recipient);
 
         Logger logger = (Logger) LoggerFactory.getLogger(EmailServiceImpl.class.getName());
@@ -57,10 +54,10 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve enviar um e-mail")
-    void send_Must_Send_An_Email() {
-        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
+    void sendEmailToSupport_Must_Send_An_Email() {
+        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
-        emailServiceMock.send(dto);
+        emailServiceMock.sendEmailToSupport(dto);
 
         verify(emailSenderMock, times(1)).send(any(SimpleMailMessage.class));
         verifyNoMoreInteractions(emailSenderMock);
@@ -82,13 +79,13 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve retornar um erro por nao enviar o e-mail")
-    void send_Must_Return_An_Error_For_Not_Sending_The_Email() {
-        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
+    void sendEmailToSupport_Must_Return_An_Error_For_Not_Sending_The_Email() {
+        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
         MailSendException mailSendException = new MailSendException("Erro retornado");
         doThrow(mailSendException).when(emailSenderMock).send(any(SimpleMailMessage.class));
 
-        emailServiceMock.send(dto);
+        emailServiceMock.sendEmailToSupport(dto);
 
         verify(emailSenderMock, times(1)).send(any(SimpleMailMessage.class));
         verifyNoMoreInteractions(emailSenderMock);
@@ -111,15 +108,15 @@ class EmailServiceTest {
     @Test
     @DisplayName("Deve retornar os dados do e-mail")
     void prepareSimpleMailMessage_Must_Return_Email_Data() {
-        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
+        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
         SimpleMailMessage result = emailServiceMock.prepareSimpleMailMessage(dto);
 
         assertNotNull(result);
 
-        assertThat(result.getFrom(), is(senderSmtpNoReply));
+        assertThat(result.getFrom(), is(dto.getSender()));
         assertThat(Objects.requireNonNull(result.getTo())[0], is(recipient));
-        assertThat(result.getSubject(), is(format("Sugestão de {0}", dto.getSender())));
+        assertThat(result.getSubject(), is(dto.getSubject()));
         assertThat(result.getText(), is(dto.getMessage()));
     }
 }

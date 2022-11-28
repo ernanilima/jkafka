@@ -14,7 +14,10 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailDTO implements Serializable {
+public class EmailToSupportDTO implements Serializable {
+
+    @NotEmpty(message = "{empty.field}")
+    private String subject;
 
     @NotEmpty(message = "{empty.field}")
     @Email(regexp = Validation.EMAIL_REGEX, message = "{invalid.email}")

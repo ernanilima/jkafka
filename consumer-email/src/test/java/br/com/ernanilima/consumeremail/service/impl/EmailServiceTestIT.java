@@ -1,7 +1,7 @@
 package br.com.ernanilima.consumeremail.service.impl;
 
 import br.com.ernanilima.consumeremail.ConsumerEmailTestIT;
-import br.com.ernanilima.shared.dto.EmailDTO;
+import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
@@ -54,8 +54,8 @@ class EmailServiceTestIT extends ConsumerEmailTestIT {
 
     @Test
     @DisplayName("Deve enviar um e-mail")
-    void send_Must_Send_An_Email() throws InterruptedException {
-        EmailDTO dto = EmailDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
+    void sendEmailToSupport_Must_Send_An_Email() throws InterruptedException {
+        EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
         kafkaTemplateMock.send("EMAIL_SEND_SUPPORT", dto);
 
