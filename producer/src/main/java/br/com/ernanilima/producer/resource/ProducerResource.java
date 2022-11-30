@@ -1,6 +1,7 @@
 package br.com.ernanilima.producer.resource;
 
 import br.com.ernanilima.producer.service.EmailService;
+import br.com.ernanilima.shared.dto.EmailForVerificationDTO;
 import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,16 @@ public class ProducerResource {
                 this.getClass().getSimpleName(), dto.getSender());
 
         emailService.sendEmailToSupport(dto);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/email-for-verification")
+    public ResponseEntity<Void> sendEmailForVerification(@Valid @RequestBody EmailForVerificationDTO dto) {
+        log.info("{} '/send/email-for-verification', enviar e-mail para '{}'",
+                this.getClass().getSimpleName(), dto.getEmailForVerification());
+
+        emailService.sendEmailForVerification(dto);
 
         return ResponseEntity.ok().build();
     }

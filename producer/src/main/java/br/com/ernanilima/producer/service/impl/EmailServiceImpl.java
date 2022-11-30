@@ -1,6 +1,7 @@
 package br.com.ernanilima.producer.service.impl;
 
 import br.com.ernanilima.producer.service.EmailService;
+import br.com.ernanilima.shared.dto.EmailForVerificationDTO;
 import br.com.ernanilima.shared.dto.EmailToSupportDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,10 @@ public class EmailServiceImpl implements EmailService {
 
     private final String CLASS_NAME = "producer." + this.getClass().getSimpleName();
 
-    @Value("${kafka.topic.email.to.support}")
+    @Value("${kafka.topic.email_to_support}")
     private String topicEmailToSupport;
+    @Value("${kafka.topic.email_for_verification}")
+    private String topicEmailForVerification;
 
     private final KafkaTemplate<String, Serializable> kafkaTemplate;
 
@@ -28,9 +31,17 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmailToSupport(EmailToSupportDTO dto) {
-        log.info("{}, e-mail de '{}' com a mensagem '{}'",
+        log.info("{}:sendEmailToSupport(obj), e-mail de '{}' com a mensagem '{}'",
                 CLASS_NAME, dto.getSender(), dto.getMessage());
 
         kafkaTemplate.send(topicEmailToSupport, dto);
+    }
+
+    @Override
+    public void sendEmailForVerification(EmailForVerificationDTO dto) {
+        log.info("{}:sendEmailForVerification(obj), e-mail para '{}'",
+                CLASS_NAME, dto.getEmailForVerification());
+
+        kafkaTemplate.send(topicEmailForVerification, dto);
     }
 }
