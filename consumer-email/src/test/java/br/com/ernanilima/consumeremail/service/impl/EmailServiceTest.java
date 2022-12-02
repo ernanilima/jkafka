@@ -46,7 +46,7 @@ class EmailServiceTest {
     }
 
     @Test
-    @DisplayName("Deve enviar um e-mail")
+    @DisplayName("Deve enviar um e-mail (sendEmailToSupport)")
     void sendEmailToSupport_Must_Send_An_Email() {
         EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
@@ -58,20 +58,20 @@ class EmailServiceTest {
         verify(appenderMock, times(2)).doAppend(argumentCaptor.capture());
 
         ILoggingEvent logger0 = argumentCaptor.getAllValues().get(0);
-        assertThat(logger0.getMessage(), is("{}, iniciando envio do e-mail de '{}' com a mensagem '{}'"));
+        assertThat(logger0.getMessage(), is("{}:sendEmailToSupport(obj), iniciando envio do e-mail de '{}' com a mensagem '{}'"));
         assertThat(logger0.getLevel(), is(Level.INFO));
         assertThat(logger0.getFormattedMessage(),
-                is("consumeremail.EmailServiceImpl, iniciando envio do e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
+                is("consumeremail.EmailServiceImpl:sendEmailToSupport(obj), iniciando envio do e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
 
         ILoggingEvent logger1 = argumentCaptor.getAllValues().get(1);
-        assertThat(logger1.getMessage(), is("{}, e-mail de '{}' foi enviado"));
+        assertThat(logger1.getMessage(), is("{}:sendEmailToSupport(obj), e-mail de '{}' foi enviado"));
         assertThat(logger1.getLevel(), is(Level.INFO));
         assertThat(logger1.getFormattedMessage(),
-                is("consumeremail.EmailServiceImpl, e-mail de 'email.ok@email.com' foi enviado"));
+                is("consumeremail.EmailServiceImpl:sendEmailToSupport(obj), e-mail de 'email.ok@email.com' foi enviado"));
     }
 
     @Test
-    @DisplayName("Deve retornar um erro por nao enviar o e-mail")
+    @DisplayName("Deve retornar um erro por nao enviar o e-mail (sendEmailToSupport)")
     void sendEmailToSupport_Must_Return_An_Error_For_Not_Sending_The_Email() {
         EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
@@ -86,15 +86,15 @@ class EmailServiceTest {
         verify(appenderMock, times(2)).doAppend(argumentCaptor.capture());
 
         ILoggingEvent logger0 = argumentCaptor.getAllValues().get(0);
-        assertThat(logger0.getMessage(), is("{}, iniciando envio do e-mail de '{}' com a mensagem '{}'"));
+        assertThat(logger0.getMessage(), is("{}:sendEmailToSupport(obj), iniciando envio do e-mail de '{}' com a mensagem '{}'"));
         assertThat(logger0.getLevel(), is(Level.INFO));
         assertThat(logger0.getFormattedMessage(),
-                is("consumeremail.EmailServiceImpl, iniciando envio do e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
+                is("consumeremail.EmailServiceImpl:sendEmailToSupport(obj), iniciando envio do e-mail de 'email.ok@email.com' com a mensagem 'Mensagem OK'"));
 
         ILoggingEvent logger1 = argumentCaptor.getAllValues().get(1);
-        assertThat(logger1.getMessage(), is("{}, erro ao enviar o e-mail de '{}', MailException '{}'"));
+        assertThat(logger1.getMessage(), is("{}:sendEmailToSupport(obj), erro ao enviar o e-mail de '{}', MailException '{}'"));
         assertThat(logger1.getLevel(), is(Level.ERROR));
         assertThat(logger1.getFormattedMessage(),
-                is("consumeremail.EmailServiceImpl, erro ao enviar o e-mail de 'email.ok@email.com', MailException 'Erro retornado'"));
+                is("consumeremail.EmailServiceImpl:sendEmailToSupport(obj), erro ao enviar o e-mail de 'email.ok@email.com', MailException 'Erro retornado'"));
     }
 }

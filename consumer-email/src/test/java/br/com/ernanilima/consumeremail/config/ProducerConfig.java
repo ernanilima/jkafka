@@ -1,9 +1,7 @@
 package br.com.ernanilima.consumeremail.config;
 
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +20,6 @@ import static org.apache.kafka.clients.producer.ProducerConfig.*;
 
 @TestConfiguration
 public class ProducerConfig implements WebMvcConfigurer {
-
-    @Value("${kafka.topic.email.to.support}")
-    private String topicEmailToSupport;
 
     private final KafkaProperties kafkaProperties;
 
@@ -47,11 +42,6 @@ public class ProducerConfig implements WebMvcConfigurer {
     @Bean
     public KafkaTemplate<String, Serializable> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
-    }
-
-    @Bean
-    public NewTopic topicEmailToSupport() {
-        return new NewTopic(topicEmailToSupport, 1, (short) 1);
     }
 
     @Bean

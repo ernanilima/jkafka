@@ -53,7 +53,7 @@ class EmailServiceTestIT extends ConsumerEmailTestIT {
     }
 
     @Test
-    @DisplayName("Deve enviar um e-mail")
+    @DisplayName("Deve enviar um e-mail (sendEmailToSupport)")
     void sendEmailToSupport_Must_Send_An_Email() throws InterruptedException {
         EmailToSupportDTO dto = EmailToSupportDTO.builder().sender("email.ok@email.com").message("Mensagem OK").build();
 
@@ -67,13 +67,13 @@ class EmailServiceTestIT extends ConsumerEmailTestIT {
         verify(appenderMock, times(2)).doAppend(argumentCaptor.capture());
 
         ILoggingEvent logger0 = argumentCaptor.getAllValues().get(0);
-        assertThat(logger0.getMessage(), is("{}, iniciando envio do e-mail de '{}' com a mensagem '{}'"));
+        assertThat(logger0.getMessage(), is("{}:sendEmailToSupport(obj), iniciando envio do e-mail de '{}' com a mensagem '{}'"));
         assertThat(logger0.getArgumentArray()[0].toString(), containsString(consumerServiceMock.getClass().getSimpleName()));
         assertThat(logger0.getArgumentArray()[1], hasToString(dto.getSender()));
         assertThat(logger0.getArgumentArray()[2], hasToString(dto.getMessage()));
 
         ILoggingEvent logger1 = argumentCaptor.getAllValues().get(1);
-        assertThat(logger1.getMessage(), is("{}, e-mail de '{}' foi enviado"));
+        assertThat(logger1.getMessage(), is("{}:sendEmailToSupport(obj), e-mail de '{}' foi enviado"));
         assertThat(logger1.getArgumentArray()[0].toString(), containsString(consumerServiceMock.getClass().getSimpleName()));
         assertThat(logger1.getArgumentArray()[1], hasToString(dto.getSender()));
     }
