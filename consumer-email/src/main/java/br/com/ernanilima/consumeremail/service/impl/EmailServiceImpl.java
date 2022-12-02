@@ -45,7 +45,7 @@ public class EmailServiceImpl extends PrepareMailMessage implements EmailService
                 CLASS_NAME, dto.getEmailForVerification());
 
         try {
-            System.out.println(dto.getEmailForVerification());
+            emailSender.send(super.prepareMimeMessageForVerification(emailSender, dto));
 
             log.info("{}:sendEmailForVerification(obj), foi enviado o e-mail para '{}'",
                     CLASS_NAME, dto.getEmailForVerification());
