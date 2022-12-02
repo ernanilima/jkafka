@@ -32,6 +32,14 @@ class I18nTest {
         assertEquals("remetente", getFieldName(sender));
         String message = "message";
         assertEquals("mensagem", getFieldName(message));
+        String application = "application";
+        assertEquals("aplicação", getFieldName(application));
+        String emailForVerification = "emailforverification";
+        assertEquals("email para verificação", getFieldName(emailForVerification));
+        String securityLink = "securitylink";
+        assertEquals("link de segurança", getFieldName(securityLink));
+        String securityCode = "securitycode";
+        assertEquals("códigos de segurança", getFieldName(securityCode));
     }
 
     @Test
