@@ -34,11 +34,11 @@ class I18nTest {
         assertEquals("mensagem", getFieldName(message));
         String application = "application";
         assertEquals("aplicação", getFieldName(application));
-        String emailForVerification = "emailforverification";
+        String emailForVerification = "emailForVerification";
         assertEquals("email para verificação", getFieldName(emailForVerification));
-        String securityLink = "securitylink";
+        String securityLink = "securityLink";
         assertEquals("link de segurança", getFieldName(securityLink));
-        String securityCode = "securitycode";
+        String securityCode = "securityCode";
         assertEquals("códigos de segurança", getFieldName(securityCode));
     }
 

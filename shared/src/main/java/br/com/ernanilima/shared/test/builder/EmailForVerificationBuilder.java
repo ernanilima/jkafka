@@ -17,4 +17,15 @@ public final class EmailForVerificationBuilder {
                 .securityCode("0918273645")
                 .build();
     }
+
+    public static EmailForVerificationDTO createWithInvalidEmail() {
+        return EmailForVerificationDTO.builder()
+                .subject("Assunto do e-mail")
+                .application("JKafka")
+                .emailForVerification("email.@email.com")
+                .message("Mensagem OK")
+                .securityLink("https://www.website.com.br")
+                .securityCode("0918273645")
+                .build();
+    }
 }

@@ -14,4 +14,12 @@ public final class EmailToSupportBuilder {
                 .message("Mensagem OK")
                 .build();
     }
+
+    public static EmailToSupportDTO createWithInvalidEmail() {
+        return EmailToSupportDTO.builder()
+                .subject("Assunto do e-mail")
+                .sender("email.@email.com")
+                .message("Mensagem OK")
+                .build();
+    }
 }

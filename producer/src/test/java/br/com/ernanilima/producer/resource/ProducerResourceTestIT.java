@@ -17,8 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static br.com.ernanilima.producer.utils.I18n.*;
 import static java.text.MessageFormat.format;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,83 +81,26 @@ class ProducerResourceTestIT extends ProducerTestIT {
                 // deve retornar a mensagem de orientacao do erro
                 .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 3))))
                 // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(3)));
-    }
+                .andExpect(jsonPath("$.errors.*", hasSize(3)))
 
-    @Test
-    @DisplayName("Deve retornar um erro por nao enviar o assunto(subject) para o endpoint /send/email-to-support")
-    void sendEmailToSupport_Must_Return_An_Error_For_Not_Sending_The_Subject() throws Exception {
-        String dtoJson = gson.toJson(EmailToSupportDTO.builder()
-                .sender("email.ok@email.com").message("Apenas a mensagem").build());
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("/send/email-to-support")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(dtoJson))
-
-                // deve retornar o Status 422
-                .andExpect(status().isUnprocessableEntity())
-                // deve retornar uma excecao 'MethodArgumentNotValidException'
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                // deve retornar o titulo de orientacao do erro
-                .andExpect(jsonPath("$.error", is(getMessage(TTL_VALIDATION))))
-                // deve retornar a mensagem de orientacao do erro
-                .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 1))))
-                // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(1)));
-    }
-
-    @Test
-    @DisplayName("Deve retornar um erro por nao enviar o email(sender) para o endpoint /send/email-to-support")
-    void sendEmailToSupport_Must_Return_An_Error_For_Not_Sending_The_EmailSENDER() throws Exception {
-        String dtoJson = gson.toJson(EmailToSupportDTO.builder().subject("Assunto do e-mail")
-                .message("Apenas a mensagem").build());
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("/send/email-to-support")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(dtoJson))
-
-                // deve retornar o Status 422
-                .andExpect(status().isUnprocessableEntity())
-                // deve retornar uma excecao 'MethodArgumentNotValidException'
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                // deve retornar o titulo de orientacao do erro
-                .andExpect(jsonPath("$.error", is(getMessage(TTL_VALIDATION))))
-                // deve retornar a mensagem de orientacao do erro
-                .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 1))))
-                // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(1)));
-    }
-
-    @Test
-    @DisplayName("Deve retornar um erro por nao enviar a mensagem(message) para o endpoint /send/email-to-support")
-    void sendEmailToSupport_Must_Return_An_Error_For_Not_Sending_The_Message() throws Exception {
-        String dtoJson = gson.toJson(EmailToSupportDTO.builder().subject("Assunto do e-mail")
-                .sender("email@email.com").build());
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("/send/email-to-support")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(dtoJson))
-
-                // deve retornar o Status 422
-                .andExpect(status().isUnprocessableEntity())
-                // deve retornar uma excecao 'MethodArgumentNotValidException'
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                // deve retornar o titulo de orientacao do erro
-                .andExpect(jsonPath("$.error", is(getMessage(TTL_VALIDATION))))
-                // deve retornar a mensagem de orientacao do erro
-                .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 1))))
-                // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(1)));
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("subject") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("subject") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("sender") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("sender") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("message") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("message") + "')].message",
+                        contains(getMessage("empty.field"))));
     }
 
     @Test
     @DisplayName("Deve retornar um erro por enviar o email(sender) invalido para o endpoint /send/email-to-support")
     void sendEmailToSupport_Must_Return_An_Error_For_Sending_The_EmailSENDER_Invalid() throws Exception {
-        String dtoJson = gson.toJson(EmailToSupportDTO.builder().subject("Assunto do e-mail")
-                .sender("email.@email.com").message("Mensagem OK").build());
+        String dtoJson = gson.toJson(EmailToSupportBuilder.createWithInvalidEmail());
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/send/email-to-support")
@@ -174,7 +116,12 @@ class ProducerResourceTestIT extends ProducerTestIT {
                 // deve retornar a mensagem de orientacao do erro
                 .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 1))))
                 // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(1)));
+                .andExpect(jsonPath("$.errors.*", hasSize(1)))
+
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("sender") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("sender") + "')].message",
+                        contains(getMessage("invalid.email"))));
     }
 
     @Test
@@ -228,6 +175,58 @@ class ProducerResourceTestIT extends ProducerTestIT {
                 // deve retornar a mensagem de orientacao do erro
                 .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 6))))
                 // deve retornar a quantiadde de erro(s)
-                .andExpect(jsonPath("$.errors.*", hasSize(6)));
+                .andExpect(jsonPath("$.errors.*", hasSize(6)))
+
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("subject") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("subject") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("application") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("application") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("emailForVerification") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("emailForVerification") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("message") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("message") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("securityLink") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("securityLink") + "')].message",
+                        contains(getMessage("empty.field"))))
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("securityCode") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("securityCode") + "')].message",
+                        contains(getMessage("empty.field"))));
+    }
+
+    @Test
+    @DisplayName("Deve retornar um erro por enviar o email(emailForVerification) invalido para o endpoint /send/email-for-verification")
+    void sendEmailForVerification_Must_Return_An_Error_For_Sending_The_EmailEMAILFORVERIFICATION_Invalid() throws Exception {
+        String dtoJson = gson.toJson(EmailForVerificationBuilder.createWithInvalidEmail());
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/send/email-for-verification")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dtoJson))
+
+                // deve retornar o Status 422
+                .andExpect(status().isUnprocessableEntity())
+                // deve retornar uma excecao 'MethodArgumentNotValidException'
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                // deve retornar o titulo de orientacao do erro
+                .andExpect(jsonPath("$.error", is(getMessage(TTL_VALIDATION))))
+                // deve retornar a mensagem de orientacao do erro
+                .andExpect(jsonPath("$.message", is(format(getMessage(EXC_QUANTITY_OF_ERRORS), 1))))
+                // deve retornar a quantiadde de erro(s)
+                .andExpect(jsonPath("$.errors.*", hasSize(1)))
+
+                // deve retornar o nome o campo e a mensagem de erro
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("emailForVerification") + "')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName == '" + getMessage("emailForVerification") + "')].message",
+                        contains(getMessage("invalid.email"))));
     }
 }
