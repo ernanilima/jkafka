@@ -22,4 +22,12 @@ public final class EmailToSupportBuilder {
                 .message("Mensagem OK")
                 .build();
     }
+
+    public static EmailToSupportDTO updateMock(EmailToSupportDTO dtoMock) {
+        return dtoMock.toBuilder()
+                .subject("Assunto do e-mail")
+                .sender("email.ok@email.com")
+                .message("Mensagem OK")
+                .build();
+    }
 }

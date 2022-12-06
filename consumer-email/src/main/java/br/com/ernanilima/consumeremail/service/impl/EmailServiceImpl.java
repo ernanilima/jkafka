@@ -16,11 +16,11 @@ public class EmailServiceImpl extends PrepareMailMessage implements EmailService
 
     private final String CLASS_NAME = "consumeremail." + this.getClass().getSimpleName();
 
-    private final JavaMailSender emailSender;
+    private final JavaMailSender mailSender;
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender emailSender) {
-        this.emailSender = emailSender;
+    public EmailServiceImpl(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class EmailServiceImpl extends PrepareMailMessage implements EmailService
                 CLASS_NAME, dto.getSender(), dto.getMessage());
 
         try {
-            emailSender.send(super.prepareSimpleMailMessage(dto));
+            mailSender.send(super.prepareSimpleMailMessage(dto));
 
             log.info("{}:sendEmailToSupport(obj), e-mail de '{}' foi enviado",
                     CLASS_NAME, dto.getSender());
@@ -45,7 +45,7 @@ public class EmailServiceImpl extends PrepareMailMessage implements EmailService
                 CLASS_NAME, dto.getEmailForVerification());
 
         try {
-            emailSender.send(super.prepareMimeMessageForVerification(emailSender, dto));
+            mailSender.send(super.prepareMimeMessageForVerification(mailSender, dto));
 
             log.info("{}:sendEmailForVerification(obj), foi enviado o e-mail para '{}'",
                     CLASS_NAME, dto.getEmailForVerification());
